@@ -1,2 +1,2 @@
 # cmdWorld
-Source of a ahckNet inspired game
+Source of a hackNet inspired game
