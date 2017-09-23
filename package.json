@@ -1,0 +1,40 @@
+{
+  "name": "cmd-world",
+  "version": "0.0.1",
+  "description": "Source of a hackNet inspired game",
+  "main": "src/js/main.js",
+  "scripts": {
+    "clean": "rm -rf dist/*",
+    "build:js": "node scripts/jsCompile.js ; webpack --config config/webpack.config.js",
+    "build:css": "node-sass src/css -o dist/css",
+    "build:html": "node scripts/htmlCompile.js",
+    "build": "npm run clean ; npm run build:js ; npm run build:css ; npm run build:html",
+    "test": "mocha",
+    "start": "npm run build && browser-sync start --config config/bs-config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/storm1er/cmdWorld.git"
+  },
+  "keywords": [
+    "game",
+    "online",
+    "hacking-simulation"
+  ],
+  "author": "storm1er",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/storm1er/cmdWorld/issues"
+  },
+  "homepage": "https://github.com/storm1er/cmdWorld#readme",
+  "devDependencies": {
+    "browser-sync": "^2.18.13",
+    "mocha": "^3.5.3",
+    "node-sass": "^4.5.3",
+    "webpack": "^3.6.0",
+    "ncp": "^2.0.0"
+  },
+  "dependencies": {
+    "rethinkdb-websocket-client": "^0.5.1"
+  }
+}
