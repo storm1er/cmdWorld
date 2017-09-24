@@ -26,4 +26,7 @@
   }).error(function(err){
     throw err;
   });
+
+  var jQuery = require('jquery');
+  window.jQuery = jQuery;
 })();

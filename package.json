@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf dist/*",
     "build:js": "node scripts/jsCompile.js ; webpack --config config/webpack.config.js",
-    "build:css": "node-sass src/css -o dist/css",
+    "build:css": "node-sass src/css/index.scss --output-style compressed > dist/css/index.css",
     "build:html": "node scripts/htmlCompile.js",
     "build": "npm run clean ; npm run build:js ; npm run build:css ; npm run build:html",
     "test": "mocha",
@@ -35,6 +35,7 @@
     "ncp": "^2.0.0"
   },
   "dependencies": {
+    "jquery": "^3.2.1",
     "rethinkdb-websocket-client": "^0.5.1"
   }
 }
