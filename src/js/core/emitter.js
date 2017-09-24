@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Creates a new instance of Emitter.
  * source : https://github.com/pazguille/emitter-es6
