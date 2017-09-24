@@ -1,4 +1,21 @@
 (function(){
+  dispatchDependency("jQuery", require('jquery'));
+
+  function dispatchDependency(name, value) {
+    const validName = /^[a-zA-Z]+$/g;
+    if (validName.test(name)) {
+      document.addEventListener("dep::"+name, function(){
+        window['set'+name](value);
+        document.removeEventListener("dep::"+name, {});
+      });
+    }
+    else {
+      Error('WebPack : invalid name "'+name+'"');
+      return false;
+    }
+  }
+
+  /**
   var RethinkdbWebsocketClient = require('rethinkdb-websocket-client');
   var r = RethinkdbWebsocketClient.rethinkdb;
 
@@ -27,5 +44,5 @@
     throw err;
   });
 
-  var jQuery = require('jquery');
+   */
 })();

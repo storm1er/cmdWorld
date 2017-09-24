@@ -205,9 +205,15 @@ class GameManager extends Emitter {
     var _this = this;
     return {
       name:gameElementName,
-      element:this.element,
-      fatalError:this.fatalError,
-      isGameElementExist:this.isGameElementExist,
+      element:function(){
+        return _this.element.apply(_this, arguments);
+      },
+      fatalError:function(){
+        return _this.fatalError.apply(_this, arguments);
+      },
+      isGameElementExist:function(){
+        return _this.isGameElementExist.apply(_this, arguments);
+      },
       // avoid giving GameManager to cb
       on:function(event, cb){
         _this.on(event, function(){

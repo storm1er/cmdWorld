@@ -5,16 +5,15 @@ class GameElement {
    * Defining imutable method setGameManager()
    */
   constructor() {
-    console.log('GameElement constructor');
     Object.defineProperty(this, 'setGameManager', {
       configurable:false,
       writable:false,
       value:function(littleManager) {
         if (this.master) {
-            throw Error("GameElement.master must be inititialized once.");
+            throw Error(_this.constructor.name+".master must be inititialized once.");
         }
         if (typeof littleManager !== "object") {
-            throw Error("GameElement.master must be an object, \""+typeof littleManager+"\" provided");
+            throw Error(_this.constructor.name+".master must be an object, \""+typeof littleManager+"\" provided");
         }
         const methods = [
           "element",
@@ -25,7 +24,7 @@ class GameElement {
         ];
         for (var i = 0; i < methods.length; i++) {
           if (typeof littleManager[methods[i]] !== 'function') {
-            throw Error('GameElement.master must have a '+methods[i]+' method');
+            throw Error(_this.constructor.name+'.master must have a '+methods[i]+' method');
           }
         }
         Object.defineProperty(this, "master", {
@@ -43,6 +42,26 @@ class GameElement {
         this.master.on('Core::destroy', function(){
           _this.onDestroy();
         });
+      }
+    });
+    Object.defineProperty(this, 'getDependency', {
+      configurable:false,
+      writable:false,
+      value:function(webPackVariableName) {
+        var _this = this;
+        const validWebPackVariableName = /^[a-zA-Z]+$/g;
+        if (validWebPackVariableName.test(webPackVariableName)) {
+          window['set'+webPackVariableName] = function(dep){
+            _this[webPackVariableName] = dep;
+            window['set'+webPackVariableName] = null;
+            console.log(_this.constructor.name+' : Dependency "'+webPackVariableName+'" loaded successfully');
+          }
+          document.dispatchEvent(new Event("dep::"+webPackVariableName));
+        }
+        else {
+          Error(_this.constructor.name+' : invalid webPackVariableName "'+webPackVariableName+'"');
+          return false;
+        }
       }
     });
   }
