@@ -214,18 +214,22 @@ class GameManager extends Emitter {
       },
       off:function(eventName, cb){
         if (!validGameElementEventName.test(eventName)) {
-          Error(gameElementName+' invalidNameEvent');
+          Error(gameElementName+' : invalidNameEvent "'+eventName+'"');
           return false;
         }
-        return this.off(gameElementName+'['+eventName+']', cb);
-      }
+        if (typeof cb !== 'function') {
+          Error(gameElementName+' : callback must be a function');
+          return false;
+        }
+        return _this.off(eventName, cb);
+      },
       // limit emit to GameElement Class
       emit:function(eventName){
         if (!validGameElementEventName.test(eventName)) {
-          Error(gameElementName+' invalidNameEvent');
+          Error(gameElementName+' : invalidNameEvent "'+eventName+'"');
           return false;
         }
-        return this.emit(gameElementName+'['+eventName+']');
+        return _this.emit(gameElementName+'['+eventName+']');
       }
     };
   }
