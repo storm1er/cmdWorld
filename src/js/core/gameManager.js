@@ -12,10 +12,6 @@ class GameManager extends Emitter {
       this.verbose();
     }
 
-    if (typeof jQuery !== "function") {
-      throw Error("jQuery must exist");
-    }
-    this.$ = jQuery;
     this.main();
     return this;
   }
@@ -132,6 +128,7 @@ class GameManager extends Emitter {
 
   /**
    * Download a game element and initialize it
+   * TODO handle download error
    * @method downloadGameElement
    * @param  {object}            gameElementDef provided by GameManager.getGameElementDefinition
    * @param  {function}          resolve        Promise's resolve function
@@ -139,7 +136,14 @@ class GameManager extends Emitter {
    */
   downloadGameElement(gameElementDef, resolve, reject) {
     var _this = this;
-    this.$.getScript(gameElementDef.url).done(function(){
+    function loadScript(url, cb) {
+        var s = document.createElement('script');
+        s.setAttribute('src', url);
+        s.onload = cb;
+        document.body.appendChild(s);
+    }
+
+    loadScript(gameElementDef.url, function(){
       _this.gameElements[gameElementDef.name] = (Function('return new '+gameElementDef.className))();
       _this.gameElements[gameElementDef.name].setGameManager(
         _this.getLittleManager(gameElementDef.name)
@@ -147,8 +151,6 @@ class GameManager extends Emitter {
       resolve(_this.gameElements[gameElementDef.name].sharedRessources());
       _this.emit("Core::loadGameElement", gameElementDef.name);
       _this.emit("Core::loadGameElement["+gameElementDef.name+"]");
-    }).fail(function(err){
-      reject(err);
     });
   }
 
@@ -242,11 +244,10 @@ class GameManager extends Emitter {
    */
   fatalError(str=null) {
     this.destroy();
-    var $ = this.$;
-    var main = $('main');
-    main.html('<span class="red-text">Fatal error</span><br>');
+    var main = document.querySelector('main');
+    main.innerHTML = '<span class="red-text">Fatal error</span><br>';
     if (typeof str === "string") {
-      main.append('<span class="red-text">'+str+'</span>');
+      main.innerHTML += '<span class="red-text">'+str+'</span>';
     }
   }
 

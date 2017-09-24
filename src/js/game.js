@@ -1,21 +1,22 @@
 (function(){
-  var $ = jQuery;
-  var main = $('main');
-  main.append('Loading /js/game.js ...');
+  var main = document.querySelector('main');
+  main.innerHTML += '<span>Loading /js/game.js ...</span>';
 
-  function loadJs(url, cb){
-    main.append('Loading '+url+' ...');
-    $.getScript(url).done(function(){
-      setTimeout(function(){
-        if (typeof cb === "function") {
-          main.append(' <span class="green-text">done</span><br/>');
-          cb();
+
+  function loadScript(url, cb) {
+      main.innerHTML += 'Loading '+url+' ...';
+      var s = document.createElement('script');
+      s.setAttribute('src', url);
+      s.onload = function(){
+        main.innerHTML += ' <span class="green-text">done</span><br/>';
+        if (typeof cb === 'function') {
+          setTimeout(function(){
+            cb();
+          }, 150);
         }
-      }, 200);
-    }).fail(function(err){
-      main.append(' <span class="red-text">error : '+err.responseText+'</span>');
-    });
-  };
+      };
+      document.body.appendChild(s);
+  }
 
   var timeToWait = 0;
   function d(str=""){
@@ -24,7 +25,7 @@
       if (typeof str === 'function') {
         str();
       } else {
-        main.append(str+'<br/>');
+        main.innerHTML += str+'<br/>';
       }
     }, timeToWait);
   };
@@ -46,10 +47,10 @@
   d('Inititializing ...');
   d();
   d(function(){
-    loadJs('/js/core/emitter.js', function(){
-      loadJs('/js/core/gameElement.js', function(){
-        loadJs('/js/core/gameManager.js', function(){
-          loadJs('/js/core/gameLaunch.js');
+    loadScript('/js/core/emitter.js', function(){
+      loadScript('/js/core/gameElement.js', function(){
+        loadScript('/js/core/gameManager.js', function(){
+          loadScript('/js/core/gameLaunch.js');
         });
       });
     });
