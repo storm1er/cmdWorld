@@ -1,5 +1,5 @@
 (function(){
-  dispatchDependency("jQuery", require('jquery'));
+  dispatchDependency("JQuery", require('jquery'));
 
   function dispatchDependency(name, value) {
     const validName = /^[a-zA-Z]+$/g;

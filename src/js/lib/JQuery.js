@@ -3,11 +3,16 @@
 class JQuery extends GameElement {
   onStart(){
     var _this = this;
-    this.getDependency('jQuery');
+    this.getDependency('JQuery');
   }
   onUpdate(){}
   onDestroy(){}
   sharedRessources(){
-    return this.jQuery;
+    var _this = this;
+    return {
+      JQuery:function(){
+        return _this.JQuery;
+      }
+    };
   }
 }

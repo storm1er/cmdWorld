@@ -5,6 +5,10 @@ class ConsoleFPS extends GameElement {
     this.lastFrame = window.performance.now();
     this.inConsole = false;
     this.onDisplay = false;
+    var _this = this;
+    this.master.element('Lib::JQuery').then(function(dep){
+      _this.JQuery = dep.JQuery();
+    });
   }
   onUpdate(){
     this.updateFps();
@@ -39,12 +43,12 @@ class ConsoleFPS extends GameElement {
     }
   }
   showOnDisplay(){
-    if (this.onDisplay) {
+    if (this.onDisplay && this.JQuery) {
       if (this.block) {
         this.block.find('span').html(this.fps);
       }
-      else if (this.jQuery) {
-        var $ = this.jQuery;
+      else {
+        var $ = this.JQuery;
         this.block = $('<div><span>'+this.fps+'</span> fps</div>');
         this.block.css({
           'padding':'.2em',
@@ -57,12 +61,6 @@ class ConsoleFPS extends GameElement {
           'top':'0px'
         });
         $('body').append(this.block);
-      }
-      else {
-        var _this = this;
-        this.master.element('Lib::JQuery').then(function($){
-          _this.jQuery = $;
-        });
       }
     }
     else if (this.block) {

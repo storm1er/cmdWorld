@@ -8,9 +8,14 @@ class GameManager extends Emitter {
   constructor(verbose = false) {
     super();
     this.gameElements = {};
+    // TODO list of gameElement currently loading {name:promise}
+    this.loadingGameElement = {};
     if (verbose) {
       this.verbose();
     }
+
+    // TODO delete window.gm before commit
+    window.gm = this;
 
     this.main();
     return this;
@@ -73,10 +78,28 @@ class GameManager extends Emitter {
    * @return {object}                 Promise, resolve(obj.sharedRessources())
    */
   element(gameElementName){
-    if (this.isGameElementExist(gameElementName)) {
+    var _this = this;
+    if (this.isGameElementLoading(gameElementName)) {
+      console.log('isGameElementLoading');
+      return this.loadingGameElement[gameElementName];
+    }
+    else if (this.isGameElementExist(gameElementName)) {
+      console.log('isGameElementExist');
       return this.getGameElement(gameElementName);
     }
-    return this.loadGameElement(gameElementName);
+
+    this.loadingGameElement[gameElementName] = this.loadGameElement(gameElementName);
+    return this.loadingGameElement[gameElementName];
+  }
+
+  /**
+   * Check if a GameElement has been 'ask' but is not loaded yet
+   * @method isGameElementExist
+   * @param  {string}           gameElementName gameElement's name
+   * @return {Boolean}                          true if exist
+   */
+  isGameElementLoading(gameElementName) {
+    return !!this.loadingGameElement[gameElementName];
   }
 
   /**
@@ -98,6 +121,7 @@ class GameManager extends Emitter {
    */
   getGameElement(gameElementName) {
     this.emit("Core::getGameElement");
+    this.emit("Core::getGameElement["+gameElementName+"]");
     var _this = this;
     return new Promise(function(resolve, reject) {
       resolve(_this.gameElements[gameElementName].sharedRessources());
@@ -113,6 +137,17 @@ class GameManager extends Emitter {
    */
   loadGameElement(gameElementName) {
     var _this = this;
+
+    // prépare auto-deletion of promise
+    function deletePromise(){
+      // waiting free time for deleting promise
+      setTimeout(function(){
+        _this.off("Core::loadGameElement["+gameElementName+"]", deletePromise);
+        delete _this.loadingGameElement[gameElementName];
+      }, 0);
+    }
+    this.on("Core::loadGameElement["+gameElementName+"]", deletePromise);
+
     return new Promise(function(resolve, reject) {
       var gameElementDef = _this.getGameElementDefinition(gameElementName);
       if (gameElementDef) {

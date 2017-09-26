@@ -49,7 +49,7 @@ class GameElement {
       writable:false,
       value:function(webPackVariableName) {
         var _this = this;
-        const validWebPackVariableName = /^[a-zA-Z]+$/g;
+        const validWebPackVariableName = /^[A-Z]{1}[a-zA-Z]+$/g;
         if (validWebPackVariableName.test(webPackVariableName)) {
           window['set'+webPackVariableName] = function(dep){
             _this[webPackVariableName] = dep;
