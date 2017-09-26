@@ -80,14 +80,14 @@ class GameManager extends Emitter {
   element(gameElementName){
     var _this = this;
     if (this.isGameElementLoading(gameElementName)) {
-      console.log('isGameElementLoading');
+      console.log('GameManager : GameElement', gameElementName ,'is already loading');
       return this.loadingGameElement[gameElementName];
     }
     else if (this.isGameElementExist(gameElementName)) {
-      console.log('isGameElementExist');
+      console.log('GameManager : GameElement', gameElementName ,'already exist');
       return this.getGameElement(gameElementName);
     }
-
+    console.log('GameManager : GameElement', gameElementName ,'have to be downloaded');
     this.loadingGameElement[gameElementName] = this.loadGameElement(gameElementName);
     return this.loadingGameElement[gameElementName];
   }
@@ -183,9 +183,10 @@ class GameManager extends Emitter {
       _this.gameElements[gameElementDef.name].setGameManager(
         _this.getLittleManager(gameElementDef.name)
       );
-      resolve(_this.gameElements[gameElementDef.name].sharedRessources());
-      _this.emit("Core::loadGameElement", gameElementDef.name);
+      console.log('GameManager : GameElement', gameElementDef.name ,'is loaded, initializing');
       _this.emit("Core::loadGameElement["+gameElementDef.name+"]");
+      _this.emit("Core::loadGameElement", gameElementDef.name);
+      resolve(_this.gameElements[gameElementDef.name].sharedRessources());
     });
   }
 
