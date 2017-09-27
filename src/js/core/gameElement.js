@@ -35,12 +35,12 @@ class GameElement {
         var _this = this;
         this.master.on("Core::loadGameElement["+_this.master.name+"]", function(){
           _this.onStart();
-        });
-        this.master.on('Core::update', function(){
-          _this.onUpdate();
-        });
-        this.master.on('Core::destroy', function(){
-          _this.onDestroy();
+          _this.master.on('Core::update', function(){
+            _this.onUpdate();
+          });
+          _this.master.on('Core::destroy', function(){
+            _this.onDestroy();
+          });
         });
       }
     });
