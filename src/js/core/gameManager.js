@@ -257,10 +257,6 @@ class GameManager extends Emitter {
         });
       },
       off:function(eventName, cb){
-        if (!validGameElementEventName.test(eventName)) {
-          Error(gameElementName+' : invalidNameEvent "'+eventName+'"');
-          return false;
-        }
         if (typeof cb !== 'function') {
           Error(gameElementName+' : callback must be a function');
           return false;
