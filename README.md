@@ -6,7 +6,7 @@ Source of a hackNet inspired game
 [![devDependencies Status](https://david-dm.org/storm1er/cmdWorld/dev-status.svg)](https://david-dm.org/storm1er/cmdWorld?type=dev)
 
 ## installing (contributing purpose)
-Clone repo then `npm install` then you should be good to go ;)
+Clone repo, `npm install && npm start` then you should be good to go ;)
 
 ## npm run-scripts
 - `npm run clean` : remove dist/* files
