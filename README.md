@@ -1,6 +1,8 @@
 # cmdWorld
 Source of a hackNet inspired game
 
+[![Build Status](https://travis-ci.org/storm1er/cmdWorld.svg?branch=master)](https://travis-ci.org/storm1er/cmdWorld)
+
 ## installing (contributing purpose)
 Clone repo then `npm install` then you should be good to go ;)
 
