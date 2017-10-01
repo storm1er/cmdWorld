@@ -10,7 +10,7 @@
     "build:css": "node-sass src/css/index.scss --output-style compressed > dist/css/index.css",
     "build:html": "node scripts/htmlCompile.js",
     "build": "npm run clean ; npm run build:js ; npm run build:css ; npm run build:html",
-    "test": "mocha",
+    "test": "npm run build:js:webpack ; mocha -r jsdom-global/register \"src/js/**/*.test.js\"",
     "start": "npm run build && browser-sync start --config config/bs-config.js"
   },
   "repository": {
@@ -30,10 +30,11 @@
   "homepage": "https://github.com/storm1er/cmdWorld#readme",
   "devDependencies": {
     "browser-sync": "^2.18.13",
+    "jsdom": "^11.3.0",
     "mocha": "^3.5.3",
+    "ncp": "^2.0.0",
     "node-sass": "^4.5.3",
-    "webpack": "^3.6.0",
-    "ncp": "^2.0.0"
+    "webpack": "^3.6.0"
   },
   "dependencies": {
     "jquery": "^3.2.1",

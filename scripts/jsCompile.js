@@ -1,5 +1,5 @@
 const ncp = require('ncp').ncp;
-const jsRegExp = new RegExp(/^(?!.*\.test\.js$).*\.js$/g);
+const jsRegExp = new RegExp(/^(?!.*\.(test||mocha)\.js$)^(?!webpack\.js$).*\.js$/g);
 
 // TODO avoid webpack files
 // TODO js lint
