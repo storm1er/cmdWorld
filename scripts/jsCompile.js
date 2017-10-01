@@ -4,6 +4,7 @@ const jsRegExp = new RegExp(/^(?!.*\.(test||mocha)\.js$)^(?!webpack\.js$).*\.js$
 // TODO avoid webpack files
 // TODO js lint
 // TODO js minifier
+// TODO avoid re-compiling for nothing
 
 console.log("[jsCompile] start ");
 

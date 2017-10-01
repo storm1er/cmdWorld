@@ -2,6 +2,7 @@ const ncp = require('ncp').ncp;
 const htmlRegExp = new RegExp(/.*\.html$/g);
 
 // TODO minifier html
+// TODO avoid re-compiling for nothing
 
 console.log("[htmlCompile] start ");
 
