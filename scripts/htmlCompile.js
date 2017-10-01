@@ -10,6 +10,9 @@ ncp("src/", "dist/", {
     if (name.indexOf('.') == -1) {
       return true;
     }
+    if (name.indexOf('js') != -1) {
+      return false;
+    }
     var ret = !! name.match(htmlRegExp);
     if (ret) {
       console.log("[htmlCompile] copying ", name);
