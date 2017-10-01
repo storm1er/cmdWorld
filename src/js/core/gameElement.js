@@ -4,7 +4,8 @@ class GameElement {
   /**
    * Defining imutable method setGameManager()
    */
-  constructor() {
+  constructor(verbose = false) {
+    this.log = !!verbose;
     Object.defineProperty(this, 'setGameManager', {
       configurable:false,
       writable:false,
@@ -54,7 +55,9 @@ class GameElement {
           window['set'+webPackVariableName] = function(dep){
             _this[webPackVariableName] = dep;
             window['set'+webPackVariableName] = null;
-            console.log(_this.constructor.name+' : Dependency "'+webPackVariableName+'" loaded successfully');
+            if (_this.log) {
+              console.log(_this.constructor.name+' : Dependency "'+webPackVariableName+'" loaded successfully');
+            }
           }
           document.dispatchEvent(new Event("dep::"+webPackVariableName));
         }
