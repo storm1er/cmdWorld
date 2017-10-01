@@ -5,7 +5,8 @@
   "main": "src/js/main.js",
   "scripts": {
     "clean": "rm -rf dist/*",
-    "build:js": "node scripts/jsCompile.js ; webpack --config config/webpack.config.js",
+    "build:js:webpack": "webpack --config config/webpack.config.js",
+    "build:js": "node scripts/jsCompile.js ; npm run build:js:webpack",
     "build:css": "node-sass src/css/index.scss --output-style compressed > dist/css/index.css",
     "build:html": "node scripts/htmlCompile.js",
     "build": "npm run clean ; npm run build:js ; npm run build:css ; npm run build:html",
