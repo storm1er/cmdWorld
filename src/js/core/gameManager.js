@@ -177,6 +177,10 @@ class GameManager extends Emitter {
     var _this = this;
     function addScript(url, cb) {
         var s = document.createElement('script');
+        if (_this.testEnv) {
+          url = url.substr(1);
+          url = '../../'+url;
+        }
         s.setAttribute('src', url);
         s.onload = cb;
         document.body.appendChild(s);
