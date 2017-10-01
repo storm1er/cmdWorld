@@ -5,8 +5,9 @@
  */
 
 class GameManager extends Emitter {
-  constructor(verbose = false) {
+  constructor(verbose = false, _testEnv = false) {
     super();
+    this.testEnv = _testEnv;
     this.gameElements = {};
     // TODO list of gameElement currently loading {name:promise}
     this.loadingGameElement = {};
@@ -28,6 +29,7 @@ class GameManager extends Emitter {
   verbose() {
     console.log('GameManager : verbose');
     var _this = this;
+    this.log = true;
     var on = this.on;
     function newOn() {
       console.log('GameManager : add listener ', arguments[0]);
@@ -53,11 +55,8 @@ class GameManager extends Emitter {
   main() {
     // let browser handle frames
     var _this = this;
-    var lastTFrame = window.performance.now();
     var loop = function(tFrame){
       _this.animationFrameId = window.requestAnimationFrame( loop );
-      // var diffBetweenUpdate = (tFrame-lastTFrame).toFixed(1);
-      // var fps = (1000/diffBetweenUpdate).toFixed(1);
       _this.emit("Core::update");
     }
     loop();
@@ -78,16 +77,21 @@ class GameManager extends Emitter {
    * @return {object}                 Promise, resolve(obj.sharedRessources())
    */
   element(gameElementName){
-    var _this = this;
     if (this.isGameElementLoading(gameElementName)) {
-      console.log('GameManager : GameElement', gameElementName ,'is already loading');
+      if (this.log) {
+        console.log('GameManager : GameElement', gameElementName ,'is already loading');
+      }
       return this.loadingGameElement[gameElementName];
     }
     else if (this.isGameElementExist(gameElementName)) {
-      console.log('GameManager : GameElement', gameElementName ,'already exist');
+      if (this.log) {
+        console.log('GameManager : GameElement', gameElementName ,'already exist');
+      }
       return this.getGameElement(gameElementName);
     }
-    console.log('GameManager : GameElement', gameElementName ,'have to be downloaded');
+    if (this.log) {
+      console.log('GameManager : GameElement', gameElementName ,'have to be downloaded');
+    }
     this.loadingGameElement[gameElementName] = this.loadGameElement(gameElementName);
     return this.loadingGameElement[gameElementName];
   }
@@ -171,22 +175,24 @@ class GameManager extends Emitter {
    */
   downloadGameElement(gameElementDef, resolve, reject) {
     var _this = this;
-    function loadScript(url, cb) {
+    function addScript(url, cb) {
         var s = document.createElement('script');
         s.setAttribute('src', url);
         s.onload = cb;
         document.body.appendChild(s);
     }
 
-    loadScript(gameElementDef.url, function(){
-      _this.gameElements[gameElementDef.name] = (Function('return new '+gameElementDef.className))();
+    addScript(gameElementDef.url, function(){
+      _this.gameElements[gameElementDef.name] = (Function('return new '+gameElementDef.className+'('+_this.log+')'))();
       _this.gameElements[gameElementDef.name].setGameManager(
         _this.getLittleManager(gameElementDef.name)
       );
-      console.log('GameManager : GameElement', gameElementDef.name ,'is loaded, initializing');
+      if (_this.log) {
+        console.log('GameManager : GameElement', gameElementDef.name ,'is loaded, initializing');
+      }
+      resolve(_this.gameElements[gameElementDef.name].sharedRessources());
       _this.emit("Core::loadGameElement["+gameElementDef.name+"]");
       _this.emit("Core::loadGameElement", gameElementDef.name);
-      resolve(_this.gameElements[gameElementDef.name].sharedRessources());
     });
   }
 
