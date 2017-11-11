@@ -20,16 +20,27 @@ class ScreenManager extends GameElement {
   }
 
   /**
-   * Append html to <main>
+   * Append page to <main>
    *
-   * You can display the same file multiple time
+   * It will load /home/YOURPAGE.html,
+   * you can display the same file multiple time
+   *
    * @method display
-   * @param  {string} url url to html file
-   * @return {string}     uuid v4 to identify your element in dom (#uuid)
+   * @param  {string} page dist/src/{page}.html
+   * @return {string}      uuid v4 to identify your element in dom (#uuid)
    */
-  display(url){
-    var $ = _this.JQuery;
-    
+  display(page){
+    var _this = this;
+    var $ = this.JQuery;
+    var url = '/html/'+page+'.html';
+    var uuid = this.master.guid();
+    $.get(url).done(function(data){
+      var el = $('<div id="'+uuid+'" page="'+page+'">'+data+'</div>');
+      $('main').append(el);
+    }).fail(function(err){
+      _this.master.fatalError("Bad page name provided");
+    });
+    return uuid;
   }
 
   /**
@@ -42,7 +53,11 @@ class ScreenManager extends GameElement {
    * @param  {string}  search url or uuid from display()
    * @return {Boolean}
    */
-  isExist(search){}
+  isExist(search){
+    var byUuid = !!this.JQuery('#'+search).length;
+    var byPageName = !!this.JQuery('[page="'+search+'"]').length;
+    return (byUuid || byPageName);
+  }
 
   /**
    * Remove element from display.
@@ -54,6 +69,10 @@ class ScreenManager extends GameElement {
    * @param  {string}  search url or uuid from display()
    * @return {Boolean}  deletion success
    */
-  remove(search){}
+  remove(search){
+    var byUuid = !!this.JQuery('#'+search).remove();
+    var byPageName = !!this.JQuery('[page="'+search+'"]').remove();
+    return (byUuid || byPageName);
+  }
 
 }
