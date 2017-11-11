@@ -2,7 +2,12 @@
   var main = document.querySelector('main');
   main.innerHTML += '<span>Loading /js/game.js ...</span>';
 
-
+  /**
+   * This simply add a <script src="{url}" onload="{cb}"> to page
+   * @method loadScript
+   * @param  {string}   url url to js file
+   * @param  {Function} cb  callback for onload propertie
+   */
   function loadScript(url, cb) {
       main.innerHTML += 'Loading '+url+' ...';
       var s = document.createElement('script');
@@ -19,6 +24,12 @@
   }
 
   var timeToWait = 0;
+
+  /**
+   * Display progressively string on screen, using timeToWait global variable.
+   * @method loadScript
+   * @param  {string|function}   str string to display or function to call
+   */
   function d(str=""){
     timeToWait += 100;
     setTimeout(function(){
@@ -31,7 +42,7 @@
   };
 
   d(' <span class="green-text">done</span>');
-  d('');
+  d();
   d('<pre> ___________________________________________/\\\\\\___/\\\\\\______________/\\\\\\_____________________________/\\\\\\\\\\\\____________/\\\\\\__</pre>');
   d('<pre>  __________________________________________\\/\\\\\\__\\/\\\\\\_____________\\/\\\\\\____________________________\\////\\\\\\___________\\/\\\\\\__</pre>');
   d('<pre>   __________________________________________\\/\\\\\\__\\/\\\\\\_____________\\/\\\\\\_______________________________\\/\\\\\\___________\\/\\\\\\__</pre>');
