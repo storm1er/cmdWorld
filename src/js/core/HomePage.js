@@ -6,6 +6,9 @@ class HomePage extends GameElement {
     this.master.element('Lib::JQuery').then(function(dep){
       _this.JQuery = dep.JQuery();
     });
+    this.master.element('Core::ScreenManager').then(function(_ScreenManager){
+      _this.ScreenManager = _ScreenManager;
+    });
   }
   onUpdate(){}
   onDestroy(){}
