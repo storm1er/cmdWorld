@@ -10,7 +10,7 @@
     "build:css": "node-sass src/css/index.scss --output-style compressed > dist/css/index.css",
     "build:html": "node scripts/htmlCompile.js",
     "build": "npm run clean ; npm run build:js ; npm run build:css ; npm run build:html",
-    "test": "npm run build:js:webpack ; mocha -r jsdom-global/register \"src/js/**/*.test.js\"",
+    "test": "npm run build:js:webpack ; mocha -r jsdom-global/register \"src/js/**/*.test.js\" --exit",
     "start": "npm run build && browser-sync start --config config/bs-config.js"
   },
   "repository": {
@@ -32,10 +32,11 @@
     "browser-sync": "^2.18.13",
     "jsdom": "^11.3.0",
     "jsdom-global": "^3.0.2",
-    "mocha": "^3.5.3",
+    "mocha": "^4.0.1",
     "ncp": "^2.0.0",
     "node-sass": "^4.5.3",
-    "webpack": "^3.6.0"
+    "webpack": "^3.6.0",
+    "ajv": "^5.0.0"
   },
   "dependencies": {
     "jquery": "^3.2.1",
