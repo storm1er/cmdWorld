@@ -280,6 +280,16 @@ class GameManager extends Emitter {
           return false;
         }
         return _this.emit(gameElementName+'['+eventName+']');
+      },
+      // uuid v4 generator
+      guid:function(){
+        function s4() {
+          return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+          s4() + '-' + s4() + s4() + s4();
       }
     };
   }
