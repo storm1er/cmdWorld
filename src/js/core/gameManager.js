@@ -167,7 +167,7 @@ class GameManager extends Emitter {
 
   /**
    * Download a game element and initialize it
-   * TODO handle download error
+   *
    * @method downloadGameElement
    * @param  {object}            gameElementDef provided by GameManager.getGameElementDefinition
    * @param  {function}          resolve        Promise's resolve function
