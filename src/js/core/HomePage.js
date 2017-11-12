@@ -66,6 +66,7 @@ class HomePage extends GameElement {
     }
     // Remove menu
     else if (this.isMenuLoaded() && !isMenuActive) {
+      this.menuUuid = false;
       this.sm.remove(page);
     }
   }
