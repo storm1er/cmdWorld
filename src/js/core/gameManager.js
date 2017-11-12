@@ -7,7 +7,7 @@
 class GameManager extends Emitter {
   constructor(verbose = false, _testEnv = false) {
     super();
-    this.testEnv = _testEnv;
+    this.testEnv = !!_testEnv;
     this.gameElements = {};
     // TODO list of gameElement currently loading {name:promise}
     this.loadingGameElement = {};
@@ -199,7 +199,7 @@ class GameManager extends Emitter {
     }
 
     addScript(gameElementDef.url, function(){
-      _this.gameElements[gameElementDef.name] = (Function('return new '+gameElementDef.className+'('+_this.log+')'))();
+      _this.gameElements[gameElementDef.name] = (Function('return new '+gameElementDef.className+'('+_this.log+', '+_this.testEnv+')'))();
       _this.gameElements[gameElementDef.name].setGameManager(
         _this.getLittleManager(gameElementDef.name)
       );
