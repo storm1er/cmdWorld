@@ -176,14 +176,26 @@ class GameManager extends Emitter {
   downloadGameElement(gameElementDef, resolve, reject) {
     var _this = this;
     function addScript(url, cb) {
-        var s = document.createElement('script');
-        if (_this.testEnv) {
-          url = url.substr(1);
-          url = '../../'+url;
-        }
-        s.setAttribute('src', url);
-        s.onload = cb;
-        document.body.appendChild(s);
+
+      // When using <script> tag, you can't define if it has loaded or not
+      var onLoad = function(){
+        clearTimeout(timeOut);
+        cb();
+      };
+      // So we are using a timeout to know
+      var timeOut = setTimeout(function(){
+        _this.fatalError("Failed to load file : "+url);
+      }, 1000);
+
+      var s = document.createElement('script');
+      // If we are using mocha, mock url.
+      if (_this.testEnv) {
+        url = url.substr(1);
+        url = '../../'+url;
+      }
+      s.setAttribute('src', url);
+      s.onload = onLoad;
+      document.body.appendChild(s);
     }
 
     addScript(gameElementDef.url, function(){
