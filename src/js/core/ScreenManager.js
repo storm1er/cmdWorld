@@ -33,6 +33,11 @@ class ScreenManager extends GameElement {
     var _this = this;
     var $ = this.JQuery;
     var url = '/html/'+page+'.html';
+
+    if (this.testEnv) {
+      url = '../../'+url;
+    }
+
     var uuid = this.master.guid();
     $.get(url).done(function(data){
       var el = $('<div id="'+uuid+'" page="'+page+'">'+data+'</div>');
