@@ -7,7 +7,7 @@
 class GameManager extends Emitter {
   constructor(verbose = false, _testEnv = false) {
     super();
-    this.testEnv = _testEnv;
+    this.testEnv = !!_testEnv;
     this.gameElements = {};
     // TODO list of gameElement currently loading {name:promise}
     this.loadingGameElement = {};
@@ -98,7 +98,7 @@ class GameManager extends Emitter {
 
   /**
    * Check if a GameElement has been 'ask' but is not loaded yet
-   * @method isGameElementExist
+   * @method isGameElementLoading
    * @param  {string}           gameElementName gameElement's name
    * @return {Boolean}                          true if exist
    */
@@ -142,7 +142,7 @@ class GameManager extends Emitter {
   loadGameElement(gameElementName) {
     var _this = this;
 
-    // prépare auto-deletion of promise
+    // prepare auto-deletion of promise
     function deletePromise(){
       // waiting free time for deleting promise
       setTimeout(function(){
@@ -167,7 +167,7 @@ class GameManager extends Emitter {
 
   /**
    * Download a game element and initialize it
-   * TODO handle download error
+   *
    * @method downloadGameElement
    * @param  {object}            gameElementDef provided by GameManager.getGameElementDefinition
    * @param  {function}          resolve        Promise's resolve function
@@ -176,18 +176,30 @@ class GameManager extends Emitter {
   downloadGameElement(gameElementDef, resolve, reject) {
     var _this = this;
     function addScript(url, cb) {
-        var s = document.createElement('script');
-        if (_this.testEnv) {
-          url = url.substr(1);
-          url = '../../'+url;
-        }
-        s.setAttribute('src', url);
-        s.onload = cb;
-        document.body.appendChild(s);
+
+      // When using <script> tag, you can't define if it has loaded or not
+      var onLoad = function(){
+        clearTimeout(timeOut);
+        cb();
+      };
+      // So we are using a timeout to know
+      var timeOut = setTimeout(function(){
+        _this.fatalError("Failed to load file : "+url);
+      }, 1000);
+
+      var s = document.createElement('script');
+      // If we are using mocha, mock url.
+      if (_this.testEnv) {
+        url = url.substr(1);
+        url = '../../'+url;
+      }
+      s.setAttribute('src', url);
+      s.onload = onLoad;
+      document.body.appendChild(s);
     }
 
     addScript(gameElementDef.url, function(){
-      _this.gameElements[gameElementDef.name] = (Function('return new '+gameElementDef.className+'('+_this.log+')'))();
+      _this.gameElements[gameElementDef.name] = (Function('return new '+gameElementDef.className+'('+_this.log+', '+_this.testEnv+')'))();
       _this.gameElements[gameElementDef.name].setGameManager(
         _this.getLittleManager(gameElementDef.name)
       );
@@ -280,6 +292,16 @@ class GameManager extends Emitter {
           return false;
         }
         return _this.emit(gameElementName+'['+eventName+']');
+      },
+      // uuid v4 generator
+      guid:function(){
+        function s4() {
+          return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+          s4() + '-' + s4() + s4() + s4();
       }
     };
   }
@@ -293,9 +315,9 @@ class GameManager extends Emitter {
   fatalError(str=null) {
     this.destroy();
     var main = document.querySelector('main');
-    main.innerHTML = '<span class="red-text">Fatal error</span><br>';
+    main.innerHTML = '<span class="text-fail">Fatal error</span><br>';
     if (typeof str === "string") {
-      main.innerHTML += '<span class="red-text">'+str+'</span>';
+      main.innerHTML += '<span class="text-fail">'+str+'</span>';
     }
   }
 

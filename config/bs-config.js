@@ -22,12 +22,12 @@ var env = Object.assign({}, process.env);
 env.PATH = path.resolve("./node_modules/.bin") + SEPARATOR + env.PATH;
 
 var myExecSync = function myExecSync(cmd) {
-    var output = execSync(cmd, {
-        cwd: process.cwd(),
-        env: env
-    });
+  var output = execSync(cmd, {
+      cwd: process.cwd(),
+      env: env
+  });
 
-    console.log(output.toString('utf-8'));
+  console.log(output.toString('utf-8'));
 }
 var copyHtml = function(action, fileName) {
   myExecSync("npm run build:html");
@@ -103,8 +103,8 @@ module.exports = {
     "scrollRestoreTechnique": "window.name",
     "scrollElements": [],
     "scrollElementMapping": [],
-    "reloadDelay": 0,
-    "reloadDebounce": 0,
+    "reloadDelay": 50,
+    "reloadDebounce": 100,
     "reloadThrottle": 0,
     "plugins": [],
     "injectChanges": true,

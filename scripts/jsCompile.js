@@ -1,7 +1,6 @@
 const ncp = require('ncp').ncp;
-const jsRegExp = new RegExp(/^(?!.*\.(test||mocha)\.js$)^(?!webpack\.js$).*\.js$/g);
+const jsRegExp = new RegExp(/^(?!.*\.(test||mocha)\.js$)^(?!.*webpack\.js$).*\.js$/g);
 
-// TODO avoid webpack files
 // TODO js lint
 // TODO js minifier
 // TODO avoid re-compiling for nothing
@@ -9,6 +8,7 @@ const jsRegExp = new RegExp(/^(?!.*\.(test||mocha)\.js$)^(?!webpack\.js$).*\.js$
 console.log("[jsCompile] start ");
 
 ncp("src/", "dist/", {
+  // Filter only js files
   filter: function(name) {
     if (name.indexOf('.') == -1) {
       return true;
@@ -18,7 +18,9 @@ ncp("src/", "dist/", {
       console.log("[jsCompile] copying ", name);
     }
     return ret;
-  }
+  },
+  // Follow symlink
+  dereference: true
 }, function (err) {
  if (err) {
    return console.error(err);

@@ -4,8 +4,9 @@ class GameElement {
   /**
    * Defining imutable method setGameManager()
    */
-  constructor(verbose = false) {
+  constructor(verbose = false, testEnv = false) {
     this.log = !!verbose;
+    this.testEnv = !!testEnv;
     Object.defineProperty(this, 'setGameManager', {
       configurable:false,
       writable:false,
