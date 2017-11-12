@@ -13,7 +13,7 @@
       var s = document.createElement('script');
       s.setAttribute('src', url);
       s.onload = function(){
-        main.innerHTML += ' <span class="green-text">done</span><br/>';
+        main.innerHTML += ' <span class="text-success">done</span><br/>';
         if (typeof cb === 'function') {
           setTimeout(function(){
             cb();
@@ -41,7 +41,7 @@
     }, timeToWait);
   };
 
-  d(' <span class="green-text">done</span>');
+  d(' <span class="text-success">done</span>');
   d();
   d('<pre> ___________________________________________/\\\\\\___/\\\\\\______________/\\\\\\_____________________________/\\\\\\\\\\\\____________/\\\\\\__</pre>');
   d('<pre>  __________________________________________\\/\\\\\\__\\/\\\\\\_____________\\/\\\\\\____________________________\\////\\\\\\___________\\/\\\\\\__</pre>');

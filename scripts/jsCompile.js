@@ -18,7 +18,9 @@ ncp("src/", "dist/", {
       console.log("[jsCompile] copying ", name);
     }
     return ret;
-  }
+  },
+  // Follow symlink
+  dereference: true
 }, function (err) {
  if (err) {
    return console.error(err);

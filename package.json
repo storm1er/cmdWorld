@@ -39,7 +39,9 @@
     "ajv": "^5.0.0"
   },
   "dependencies": {
+    "@material/theme": "^0.24.0",
     "jquery": "^3.2.1",
+    "material-components-web": "^0.24.0",
     "rethinkdb-websocket-client": "^0.5.1"
   }
 }

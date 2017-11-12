@@ -303,9 +303,9 @@ class GameManager extends Emitter {
   fatalError(str=null) {
     this.destroy();
     var main = document.querySelector('main');
-    main.innerHTML = '<span class="red-text">Fatal error</span><br>';
+    main.innerHTML = '<span class="text-fail">Fatal error</span><br>';
     if (typeof str === "string") {
-      main.innerHTML += '<span class="red-text">'+str+'</span>';
+      main.innerHTML += '<span class="text-fail">'+str+'</span>';
     }
   }
 

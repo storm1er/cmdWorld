@@ -1,6 +1,7 @@
-.red-text {
-  color:#F00;
-}
-.green-text {
-  color:#0F0;
+$mdc-theme-primary: #FFFFFF; // White
+$mdc-theme-secondary: #117700; // Green
+$mdc-theme-background: #000000; // Black
+
+:root {
+  --theme-fail: #CC2200; // Red
 }

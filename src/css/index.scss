@@ -1,5 +1,9 @@
 @import "core/_normalize";
+
 @import "core/_color";
+@import "../../node_modules/@material/theme/mdc-theme";
+
+@import "core/_typo";
 
 html,
 body,
@@ -10,14 +14,16 @@ main {
   min-height: 100%;
   max-width: 100%;
   max-height: 100%;
-  color: #FFFFFF;
+  color: var(--mdc-theme-primary);
   font-family: monospace;
 }
 body {
-  background-color: #000000;
+  background-color: var(--mdc-theme-background);
 }
 pre {
+  color: var(--mdc-theme-primary);
   font-size: .8em;
+  line-height: 1em;
   margin:0 0 0 0;
   padding:0 0 0 0;
   display:inline-block;
