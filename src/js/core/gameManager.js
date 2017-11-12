@@ -142,7 +142,7 @@ class GameManager extends Emitter {
   loadGameElement(gameElementName) {
     var _this = this;
 
-    // prépare auto-deletion of promise
+    // prepare auto-deletion of promise
     function deletePromise(){
       // waiting free time for deleting promise
       setTimeout(function(){
