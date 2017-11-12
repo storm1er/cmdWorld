@@ -98,7 +98,7 @@ class GameManager extends Emitter {
 
   /**
    * Check if a GameElement has been 'ask' but is not loaded yet
-   * @method isGameElementExist
+   * @method isGameElementLoading
    * @param  {string}           gameElementName gameElement's name
    * @return {Boolean}                          true if exist
    */
